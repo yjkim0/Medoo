@@ -112,8 +112,8 @@ class medoo
 
 				case 'mssql':
 					$dsn = strstr(PHP_OS, 'WIN') ?
-						'sqlsrv:server=' . $this->server . ($is_port ? ',' . $port : '') . ';database=' . $this->database_name :
-						'dblib:host=' . $this->server . ($is_port ? ':' . $port : '') . ';dbname=' . $this->database_name;
+						'sqlsrv:server=' . $this->server . ($is_port ? ',' . $port : '') . ';database=' . $this->database_name . ($this->charset?';charset='.$this->charset:'') :
+						'dblib:host=' . $this->server . ($is_port ? ':' . $port : '') . ';dbname=' . $this->database_name . ($this->charset?';charset='.$this->charset:'') ;
 
 					// Keep MSSQL QUOTED_IDENTIFIER is ON for standard quoting
 					$commands[] = 'SET QUOTED_IDENTIFIER ON';
@@ -127,7 +127,7 @@ class medoo
 			}
 
 			if (
-				in_array($type, explode(' ', 'mariadb mysql pgsql sybase mssql')) &&
+				in_array($type, explode(' ', 'mariadb mysql pgsql sybase')) &&
 				$this->charset
 			)
 			{
